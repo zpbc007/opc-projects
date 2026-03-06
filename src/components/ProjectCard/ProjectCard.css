@@ -14,8 +14,29 @@
 .project-card-title {
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   color: var(--text-primary, #1a1a2e);
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.project-card-rating {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-star {
+  font-size: 1rem;
+  color: #d1d5db;
+}
+
+.rating-star.filled {
+  color: #fbbf24;
 }
 
 .project-card-date {

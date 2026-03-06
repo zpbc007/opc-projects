@@ -15,9 +15,27 @@ export function ProjectCard({ project }: ProjectCardProps) {
     });
   };
 
+  const renderRating = (rating: number) => {
+    return (
+      <div className="project-card-rating">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <span
+            key={star}
+            className={`rating-star ${star <= rating ? 'filled' : ''}`}
+          >
+            ★
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <article className="project-card">
-      <h2 className="project-card-title">{project.name}</h2>
+      <div className="project-card-header">
+        <h2 className="project-card-title">{project.name}</h2>
+        {renderRating(project.rating)}
+      </div>
       <time className="project-card-date" dateTime={project.created_at}>
         {formatDate(project.created_at)}
       </time>

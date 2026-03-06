@@ -34,7 +34,7 @@ export function filterProjects(projects: Project[], query: string): Project[] {
 
 export function sortProjects(
   projects: Project[],
-  sortBy: 'date' | 'name',
+  sortBy: 'date' | 'name' | 'rating',
   order: 'asc' | 'desc'
 ): Project[] {
   return [...projects].sort((a, b) => {
@@ -42,8 +42,10 @@ export function sortProjects(
 
     if (sortBy === 'date') {
       comparison = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
-    } else {
+    } else if (sortBy === 'name') {
       comparison = a.name.localeCompare(b.name, 'zh-CN');
+    } else if (sortBy === 'rating') {
+      comparison = a.rating - b.rating;
     }
 
     return order === 'asc' ? comparison : -comparison;

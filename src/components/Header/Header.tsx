@@ -3,10 +3,10 @@ import './Header.css';
 
 interface HeaderProps {
   searchQuery: string;
-  sortBy: 'date' | 'name';
+  sortBy: 'date' | 'name' | 'rating';
   sortOrder: 'asc' | 'desc';
   onSearchChange: (query: string) => void;
-  onSortByChange: (sortBy: 'date' | 'name') => void;
+  onSortByChange: (sortBy: 'date' | 'name' | 'rating') => void;
   onSortOrderChange: (order: 'asc' | 'desc') => void;
 }
 
@@ -33,10 +33,11 @@ export function Header({
           <select
             className="sort-select"
             value={sortBy}
-            onChange={(e) => onSortByChange(e.target.value as 'date' | 'name')}
+            onChange={(e) => onSortByChange(e.target.value as 'date' | 'name' | 'rating')}
           >
             <option value="date">按日期排序</option>
             <option value="name">按名称排序</option>
+            <option value="rating">按评分排序</option>
           </select>
           <select
             className="sort-select"

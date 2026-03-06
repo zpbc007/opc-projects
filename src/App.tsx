@@ -8,7 +8,7 @@ function App() {
   const allProjects = useMemo(() => loadAllProjects(), []);
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState<'date' | 'name'>('date');
+  const [sortBy, setSortBy] = useState<'date' | 'name' | 'rating'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   const displayedProjects = useMemo(() => {
