@@ -51,12 +51,6 @@
   color: var(--text-secondary);
 }
 
-.col-date {
-  width: 15%;
-  white-space: nowrap;
-  color: var(--text-muted);
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .project-table-wrapper {

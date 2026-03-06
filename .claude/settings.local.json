@@ -13,7 +13,8 @@
       "Bash(PLAYWRIGHT_DOWNLOAD_HOST=\"https://mirrors.huaweicloud.com/playwright\" npx playwright:*)",
       "Bash(netstat:*)",
       "Bash(npx tsc:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(powershell:*)"
     ]
   }
 }
