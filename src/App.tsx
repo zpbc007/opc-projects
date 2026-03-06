@@ -2,10 +2,12 @@ import { useState, useMemo } from 'react';
 import { Header } from './components/Header/Header';
 import { ProjectList } from './components/ProjectList/ProjectList';
 import { loadAllProjects, filterProjects, sortProjects } from './utils/dataLoader';
+import { useTheme } from './hooks/useTheme';
 import './App.css';
 
 function App() {
   const allProjects = useMemo(() => loadAllProjects(), []);
+  const theme = useTheme();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'rating'>('date');
@@ -26,6 +28,7 @@ function App() {
         onSearchChange={setSearchQuery}
         onSortByChange={setSortBy}
         onSortOrderChange={setSortOrder}
+        theme={theme}
       />
       <main className="main-content">
         <ProjectList projects={displayedProjects} />

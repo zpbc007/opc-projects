@@ -2,15 +2,18 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .main-content {
   flex: 1;
-  background: var(--bg-secondary, #f5f7fa);
+  background: transparent;
+  position: relative;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-secondary: #1a1a2e;
-  }
+/* 背景装饰效果已整合到 index.css */
+
+.main-content > * {
+  position: relative;
+  z-index: 1;
 }
