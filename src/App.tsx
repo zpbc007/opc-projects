@@ -1,8 +1,10 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Header } from './components/Header/Header';
 import { ProjectList } from './components/ProjectList/ProjectList';
+import { ProjectModal } from './components/ProjectModal/ProjectModal';
 import { loadAllProjects, filterProjects, sortProjects } from './utils/dataLoader';
 import { useTheme } from './hooks/useTheme';
+import { Project } from './types/project';
 import './App.css';
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'rating'>('date');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const displayedProjects = useMemo(() => {
     let result = filterProjects(allProjects, searchQuery);
@@ -46,8 +49,17 @@ function App() {
         />
       )}
       <main className="main-content">
-        <ProjectList projects={displayedProjects} />
+        <ProjectList
+          projects={displayedProjects}
+          onProjectClick={setSelectedProject}
+        />
       </main>
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
     </div>
   );
 }

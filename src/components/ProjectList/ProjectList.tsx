@@ -4,9 +4,10 @@ import './ProjectList.css';
 
 interface ProjectListProps {
   projects: Project[];
+  onProjectClick?: (project: Project) => void;
 }
 
-export function ProjectList({ projects }: ProjectListProps) {
+export function ProjectList({ projects, onProjectClick }: ProjectListProps) {
   if (projects.length === 0) {
     return (
       <div className="project-list">
@@ -25,7 +26,11 @@ export function ProjectList({ projects }: ProjectListProps) {
       </div>
       <div className="project-list-grid">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard
+            key={project.id}
+            project={project}
+            onClick={() => onProjectClick?.(project)}
+          />
         ))}
       </div>
     </div>

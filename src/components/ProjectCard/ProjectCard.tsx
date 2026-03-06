@@ -1,54 +1,47 @@
 import { Project } from '../../types/project';
+import { StarRating } from '../StarRating/StarRating';
+import { formatDate } from '../../utils/format';
 import './ProjectCard.css';
 
 interface ProjectCardProps {
   project: Project;
+  onClick?: () => void;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+export function ProjectCard({ project, onClick }: ProjectCardProps) {
+  const truncateDescription = (text: string, maxLen = 50) => {
+    if (text.length <= maxLen) return text;
+    return text.slice(0, maxLen) + '...';
   };
 
-  const renderRating = (rating: number) => {
-    return (
-      <div className="project-card-rating">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            className={`rating-star ${star <= rating ? 'filled' : ''}`}
-          >
-            ★
-          </span>
-        ))}
-      </div>
-    );
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.();
+    }
   };
+
+  const displayScore = project.final_score ?? project.rating;
 
   return (
-    <article className="project-card">
+    <article
+      className="project-card"
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+    >
       <div className="project-card-header">
         <h2 className="project-card-title">{project.name}</h2>
-        {renderRating(project.rating)}
+        <StarRating score={displayScore} size="sm" />
       </div>
       <time className="project-card-date" dateTime={project.created_at}>
         {formatDate(project.created_at)}
       </time>
 
-      <div className="project-card-section">
-        <div className="project-card-label">描述</div>
-        <p className="project-card-description">{project.description}</p>
-      </div>
-
-      <div className="project-card-section">
-        <div className="project-card-label">洞察</div>
-        <p className="project-card-insight">{project.insight}</p>
-      </div>
+      <p className="project-card-preview">
+        {truncateDescription(project.description, 50)}
+      </p>
     </article>
   );
 }

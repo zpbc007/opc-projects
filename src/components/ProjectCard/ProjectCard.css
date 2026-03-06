@@ -11,6 +11,7 @@
               background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(20px);
   animation: fadeIn 0.5s ease-out backwards;
+  cursor: pointer;
 }
 
 /* 卡片渐入动画 - 使用CSS变量支持无限卡片 */
@@ -123,60 +124,11 @@
   border-radius: 50%;
 }
 
-.project-card-section {
-  margin-bottom: 18px;
-}
-
-.project-card-section:last-child {
-  margin-bottom: 0;
-}
-
-.project-card-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent-purple);
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.project-card-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, var(--accent-purple) 0%, transparent 100%);
-  opacity: 0.3;
-}
-
-.project-card-description {
+.project-card-preview {
   color: var(--text-secondary);
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
-.project-card-insight {
-  color: var(--text-secondary);
-  line-height: 1.7;
-  padding: 16px 18px;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  position: relative;
-  background: linear-gradient(135deg, rgba(0, 245, 212, 0.05) 0%, rgba(157, 78, 221, 0.05) 100%);
-  border: 1px solid rgba(0, 245, 212, 0.1);
-}
-
-.project-card-insight::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
-  border-radius: 3px 0 0 3px;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
 /* 响应式 */
