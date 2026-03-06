@@ -36,8 +36,14 @@
   font-weight: 500;
 }
 
+.col-score {
+  width: 8%;
+  text-align: center;
+  font-weight: 500;
+}
+
 .col-description {
-  width: 40%;
+  width: 32%;
 }
 
 .col-insight {

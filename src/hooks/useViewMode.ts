@@ -14,7 +14,7 @@ export function useViewMode(): ViewModeConfig {
 
     if (detail) {
       return {
-        mode: 'card',
+        mode: 'table',
         showHeader: false,
         showRating: true,
         forceLightTheme: true,
