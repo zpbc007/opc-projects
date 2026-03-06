@@ -1,0 +1,16 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  background: var(--bg-secondary, #f5f7fa);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-secondary: #1a1a2e;
+  }
+}

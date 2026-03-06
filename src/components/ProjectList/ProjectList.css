@@ -1,0 +1,29 @@
+.project-list {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.project-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.project-list-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.project-list-empty h3 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--text-primary, #1a1a2e);
+}
+
+.project-count {
+  margin-bottom: 20px;
+  color: var(--text-secondary, #6b7280);
+  font-size: 0.95rem;
+}
