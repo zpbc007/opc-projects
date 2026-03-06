@@ -3,7 +3,7 @@ export interface Project {
   name: string;
   description: string;
   insight: string;
-  rating: number;
+  rating?: number;
   created_at: string;
   // Score fields
   product_score?: number;

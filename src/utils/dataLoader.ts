@@ -1,22 +1,8 @@
 import { Project } from '../types/project';
-
-const dataModules = import.meta.glob<{ default: Project[] }>(
-  '../data/*.json',
-  { eager: true }
-);
+import dbData from '../data/db.json';
 
 export function loadAllProjects(): Project[] {
-  const allProjects: Project[] = [];
-
-  for (const path in dataModules) {
-    const module = dataModules[path];
-    if (module?.default) {
-      allProjects.push(...module.default);
-    }
-  }
-
-  // 按创建时间降序排列
-  return allProjects.sort((a, b) =>
+  return dbData.sort((a, b) =>
     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
   );
 }
@@ -45,7 +31,9 @@ export function sortProjects(
     } else if (sortBy === 'name') {
       comparison = a.name.localeCompare(b.name, 'zh-CN');
     } else if (sortBy === 'rating') {
-      comparison = a.rating - b.rating;
+      const aRating = a.final_score ?? a.rating ?? 0;
+      const bRating = b.final_score ?? b.rating ?? 0;
+      comparison = aRating - bRating;
     }
 
     return order === 'asc' ? comparison : -comparison;

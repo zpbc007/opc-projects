@@ -21,7 +21,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
     }
   };
 
-  const displayScore = project.final_score ?? project.rating;
+  const displayScore = project.final_score ?? project.rating ?? 0;
 
   return (
     <article
