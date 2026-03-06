@@ -120,12 +120,12 @@ async function main() {
       viewport: { width: 1920, height: 1080 },
     });
 
-    // Navigate with screenshot mode
+    // Navigate with detail mode for clean screenshot
     console.log('📄 Loading page...');
-    await page.goto(`${url}?screenshot=1`, { waitUntil: 'networkidle' });
+    await page.goto(`${url}?detail=1`, { waitUntil: 'networkidle' });
 
-    // Wait for content to render
-    await page.waitForSelector('.project-list', { timeout: 10000 });
+    // Wait for content to render (card or table mode)
+    await page.waitForSelector('.project-list, .project-table-wrapper', { timeout: 10000 });
     await page.waitForTimeout(1000); // Extra wait for animations
 
     // Take screenshot

@@ -4,25 +4,21 @@ import { ProjectList } from './components/ProjectList/ProjectList';
 import { ProjectModal } from './components/ProjectModal/ProjectModal';
 import { loadAllProjects, filterProjects, sortProjects } from './utils/dataLoader';
 import { useTheme } from './hooks/useTheme';
+import { useViewMode } from './hooks/useViewMode';
 import { Project } from './types/project';
 import './App.css';
 
 function App() {
   const allProjects = useMemo(() => loadAllProjects(), []);
   const theme = useTheme();
+  const viewMode = useViewMode();
 
-  // Screenshot mode: hide header and force light theme
-  const isScreenshotMode = useMemo(() => {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('screenshot') === '1';
-  }, []);
-
-  // Force light theme in screenshot mode
+  // Force light theme in detail mode (for screenshots)
   useEffect(() => {
-    if (isScreenshotMode) {
+    if (viewMode.forceLightTheme) {
       document.documentElement.setAttribute('data-theme', 'light');
     }
-  }, [isScreenshotMode]);
+  }, [viewMode.forceLightTheme]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'rating'>('date');
@@ -37,7 +33,7 @@ function App() {
 
   return (
     <div className="app">
-      {!isScreenshotMode && (
+      {viewMode.showHeader && (
         <Header
           searchQuery={searchQuery}
           sortBy={sortBy}
@@ -52,9 +48,10 @@ function App() {
         <ProjectList
           projects={displayedProjects}
           onProjectClick={setSelectedProject}
+          viewMode={viewMode.mode}
         />
       </main>
-      {selectedProject && (
+      {viewMode.mode !== 'table' && selectedProject && (
         <ProjectModal
           project={selectedProject}
           onClose={() => setSelectedProject(null)}
