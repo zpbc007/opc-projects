@@ -10,7 +10,8 @@
       "Bash(rm:*)",
       "Bash(npx playwright:*)",
       "Bash(PLAYWRIGHT_DOWNLOAD_HOST=\"https://npmmirror.com/mirrors/playwright\" npx playwright:*)",
-      "Bash(PLAYWRIGHT_DOWNLOAD_HOST=\"https://mirrors.huaweicloud.com/playwright\" npx playwright:*)"
+      "Bash(PLAYWRIGHT_DOWNLOAD_HOST=\"https://mirrors.huaweicloud.com/playwright\" npx playwright:*)",
+      "Bash(netstat:*)"
     ]
   }
 }

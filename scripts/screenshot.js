@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-import { spawn } from 'child_process';
+import { spawn, execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -17,6 +17,33 @@ function generateFilename() {
   const todayFiles = files.filter(f => f.startsWith(date) && f.endsWith('.png'));
   const nextId = todayFiles.length + 1;
   return `${date}-${String(nextId).padStart(3, '0')}.png`;
+}
+
+/**
+ * Kill a process and all its children (cross-platform)
+ */
+async function killProcessTree(proc) {
+  const pid = proc.pid;
+  if (!pid) return;
+
+  // Try to kill the process
+  try {
+    proc.kill('SIGTERM');
+  } catch (e) {
+    // Ignore
+  }
+
+  // On Windows, also use taskkill
+  if (process.platform === 'win32') {
+    try {
+      execSync(`taskkill /pid ${pid} /f /t`, {
+        stdio: 'ignore',
+        timeout: 3000
+      });
+    } catch (e) {
+      // Ignore errors
+    }
+  }
 }
 
 /**
@@ -67,6 +94,12 @@ async function main() {
   console.log('\n📸 OPC Projects Screenshot Tool');
   console.log('================================\n');
 
+  // Set a hard timeout to force exit
+  const hardTimeout = setTimeout(() => {
+    console.log('\n⏱️ Timeout reached, forcing exit...');
+    process.exit(0);
+  }, 30000); // 30 seconds max
+
   // Ensure output directory exists
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
@@ -78,10 +111,11 @@ async function main() {
   const { server, url } = await startServer();
   console.log(`   Server running at: ${url}`);
 
+  let browser = null;
   try {
     // Launch browser
     console.log('🌐 Launching browser...');
-    const browser = await chromium.launch({ headless: true });
+    browser = await chromium.launch({ headless: true });
     const page = await browser.newPage({
       viewport: { width: 1920, height: 1080 },
     });
@@ -106,15 +140,42 @@ async function main() {
 
     console.log(`\n✅ Screenshot saved: ${outputPath}\n`);
 
-    await browser.close();
+    // Close page first
+    await page.close();
+    console.log('📄 Page closed');
+  } catch (error) {
+    console.error('Error:', error.message);
   } finally {
+    // Close browser with timeout
+    if (browser) {
+      console.log('🌐 Closing browser...');
+      try {
+        await Promise.race([
+          browser.close(),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Browser close timeout')), 5000)
+          )
+        ]);
+        console.log('✅ Browser closed');
+      } catch (e) {
+        console.log('⚠️ Browser close timed out, continuing...');
+      }
+    }
+
     // Cleanup: stop server
     console.log('🛑 Stopping server...');
-    server.kill('SIGTERM');
+    await killProcessTree(server);
+    console.log('✅ Server stopped');
+    clearTimeout(hardTimeout);
   }
 }
 
-main().catch((err) => {
-  console.error('\n❌ Error:', err.message);
-  process.exit(1);
-});
+main()
+  .then(() => {
+    // Force exit to ensure process terminates
+    setTimeout(() => process.exit(0), 100);
+  })
+  .catch((err) => {
+    console.error('\n❌ Error:', err.message);
+    process.exit(1);
+  });
